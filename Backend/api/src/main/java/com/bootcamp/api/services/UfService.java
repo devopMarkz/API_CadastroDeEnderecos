@@ -3,7 +3,9 @@ package com.bootcamp.api.services;
 import com.bootcamp.api.dto.uf.UfDTO;
 import com.bootcamp.api.entities.Uf;
 import com.bootcamp.api.repositories.UfRepository;
+import com.bootcamp.api.services.exceptions.SiglaUfAndNomeUfExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,8 +17,13 @@ public class UfService {
 
     @Transactional
     public UfDTO insert(UfDTO ufDTO){
-        Uf uf = ufRepository.save(convertUfDTOToUf(ufDTO));
-        return convertUfToUfDTO(uf);
+        try{
+            Uf uf = ufRepository.save(convertUfDTOToUf(ufDTO));
+            return convertUfToUfDTO(uf);
+        } catch (DataIntegrityViolationException e) {
+            throw new SiglaUfAndNomeUfExistsException("Erro de integridade referencial. Este estado já possui cadastro no banco de dados.");
+        }
+
     }
 
     private UfDTO convertUfToUfDTO(Uf uf){

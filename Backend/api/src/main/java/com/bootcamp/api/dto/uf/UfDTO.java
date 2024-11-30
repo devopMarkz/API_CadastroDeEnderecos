@@ -4,18 +4,18 @@ import jakarta.validation.constraints.*;
 
 public class UfDTO {
 
-    @NotBlank(message = "O campo codigoUF não pode estar nulo ou vazio.")
-    @Positive(message = "O campo codigoUF precisa conter um número positivo.")
     private Long codigoUF;
 
     @NotBlank(message = "O campo sigla não pode estar nulo ou vazio.")
-    @Size(min = 2, max = 2)
+    @Size(min = 2, max = 2, message = "O campo sigla deve conter 2 caracteres.")
     private String sigla;
 
     @NotBlank(message = "O campo nome não pode estar nulo ou vazio.")
     private String nome;
 
-    @NotBlank(message = "O campo status não pode estar nulo ou ser vazio.")
+    @NotNull(message = "O campo status não pode estar nulo.")
+    @Min(value = 1, message = "O valor mínimo do campo status deve ser 1.")
+    @Max(value = 2, message = "O valor máximo do campo status deve ser 2.")
     private Integer status;
 
     public UfDTO(Long codigoUF, String sigla, String nome, Integer status) {

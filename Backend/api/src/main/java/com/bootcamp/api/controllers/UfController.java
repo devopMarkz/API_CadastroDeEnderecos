@@ -2,6 +2,7 @@ package com.bootcamp.api.controllers;
 
 import com.bootcamp.api.dto.uf.UfDTO;
 import com.bootcamp.api.services.UfService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class UfController {
     private UfService ufService;
 
     @PostMapping
-    public ResponseEntity<UfDTO> insert(@RequestBody UfDTO ufDTO){
+    public ResponseEntity<UfDTO> insert(@Valid @RequestBody UfDTO ufDTO){
         ufDTO = ufService.insert(ufDTO);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
