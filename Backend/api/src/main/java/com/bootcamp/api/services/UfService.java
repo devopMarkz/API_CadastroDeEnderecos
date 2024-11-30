@@ -3,6 +3,7 @@ package com.bootcamp.api.services;
 import com.bootcamp.api.dto.uf.UfDTO;
 import com.bootcamp.api.entities.Uf;
 import com.bootcamp.api.repositories.UfRepository;
+import com.bootcamp.api.services.exceptions.InvalidTypeException;
 import com.bootcamp.api.services.exceptions.SiglaUfAndNomeUfExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -34,11 +35,21 @@ public class UfService {
     }
 
     private UfDTO convertUfToUfDTO(Uf uf){
-        return new UfDTO(uf.getCodigoUF(), uf.getSigla(), uf.getNome(), uf.getStatus());
+        return new UfDTO(uf.getCodigoUF(),
+                uf.getSigla(),
+                uf.getNome(),
+                String.valueOf(uf.getStatus()));
     }
 
     private Uf convertUfDTOToUf(UfDTO ufDTO){
-        return new Uf(ufDTO.getCodigoUF(), ufDTO.getSigla(), ufDTO.getNome(), ufDTO.getStatus());
+        try{
+            return new Uf(ufDTO.getCodigoUF(),
+                    ufDTO.getSigla(),
+                    ufDTO.getNome(),
+                    Integer.parseInt(ufDTO.getStatus()));
+        } catch (NumberFormatException e){
+            throw new InvalidTypeException("O campo status possui dados inválidos.");
+        }
     }
 
 }

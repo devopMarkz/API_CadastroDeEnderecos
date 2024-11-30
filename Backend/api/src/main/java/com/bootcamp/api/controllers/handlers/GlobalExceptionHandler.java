@@ -28,6 +28,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(status).body(errorResponseDTO);
     }
 
+    @ExceptionHandler(InvalidTypeException.class)
+    public ResponseEntity<ErrorResponseDTO> invalidType(InvalidTypeException e, HttpServletRequest request){
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(errorResponseDTO);
+    }
+
     /* TRATAMENTOS GLOBAIS */
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

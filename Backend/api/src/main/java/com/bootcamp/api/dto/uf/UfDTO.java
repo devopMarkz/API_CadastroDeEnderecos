@@ -13,12 +13,10 @@ public class UfDTO {
     @NotBlank(message = "O campo nome não pode estar nulo ou vazio.")
     private String nome;
 
-    @NotNull(message = "O campo status não pode estar nulo.")
-    @Min(value = 1, message = "O valor mínimo do campo status deve ser 1.")
-    @Max(value = 2, message = "O valor máximo do campo status deve ser 2.")
-    private Integer status;
+    @NotBlank(message = "O campo status não pode estar nulo.")
+    private String status;
 
-    public UfDTO(Long codigoUF, String sigla, String nome, Integer status) {
+    public UfDTO(Long codigoUF, String sigla, String nome, String status) {
         this.codigoUF = codigoUF;
         this.sigla = sigla;
         this.nome = nome;
@@ -37,7 +35,7 @@ public class UfDTO {
         return nome;
     }
 
-    public Integer getStatus() {
+    public String getStatus() {
         return status;
     }
 }
