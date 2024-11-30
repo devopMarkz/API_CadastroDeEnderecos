@@ -2,6 +2,8 @@ package com.bootcamp.api.entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -22,6 +24,9 @@ public class Municipio {
 
     @Column(name = "STATUS", nullable = false)
     private Integer status;
+
+    @OneToMany(mappedBy = "municipio")
+    private List<Bairro> bairros = new ArrayList<>();
 
     public Municipio() {
     }
