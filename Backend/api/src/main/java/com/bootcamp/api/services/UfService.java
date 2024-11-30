@@ -5,6 +5,7 @@ import com.bootcamp.api.entities.Uf;
 import com.bootcamp.api.repositories.UfRepository;
 import com.bootcamp.api.services.exceptions.InvalidTypeException;
 import com.bootcamp.api.services.exceptions.SiglaUfAndNomeUfExistsException;
+import com.bootcamp.api.services.exceptions.StatusOutOfLimitsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -43,10 +44,9 @@ public class UfService {
 
     private Uf convertUfDTOToUf(UfDTO ufDTO){
         try{
-            return new Uf(ufDTO.getCodigoUF(),
-                    ufDTO.getSigla(),
-                    ufDTO.getNome(),
-                    Integer.parseInt(ufDTO.getStatus()));
+            Uf uf = new Uf(ufDTO.getCodigoUF(), ufDTO.getSigla(), ufDTO.getNome(), Integer.parseInt(ufDTO.getStatus()));
+            if(uf.getStatus() < 1 || uf.getStatus() > 2) throw new StatusOutOfLimitsException("Status precisa ser 1 ou 2");
+            return uf;
         } catch (NumberFormatException e){
             throw new InvalidTypeException("O campo status possui dados inválidos.");
         }

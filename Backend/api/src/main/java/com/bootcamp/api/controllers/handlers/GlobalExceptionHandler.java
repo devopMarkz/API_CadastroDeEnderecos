@@ -5,7 +5,7 @@ import com.bootcamp.api.dto.ErrorResponseDTO;
 import com.bootcamp.api.dto.ValidationErrorDTO;
 import com.bootcamp.api.services.exceptions.InvalidTypeException;
 import com.bootcamp.api.services.exceptions.SiglaUfAndNomeUfExistsException;
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import com.bootcamp.api.services.exceptions.StatusOutOfLimitsException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +30,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidTypeException.class)
     public ResponseEntity<ErrorResponseDTO> invalidType(InvalidTypeException e, HttpServletRequest request){
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(errorResponseDTO);
+    }
+
+    @ExceptionHandler(StatusOutOfLimitsException.class)
+    public ResponseEntity<ErrorResponseDTO> statusOutOfLimits(StatusOutOfLimitsException e, HttpServletRequest request){
         HttpStatus status = HttpStatus.BAD_REQUEST;
         ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(errorResponseDTO);
