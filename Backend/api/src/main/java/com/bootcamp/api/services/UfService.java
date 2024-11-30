@@ -6,6 +6,8 @@ import com.bootcamp.api.repositories.UfRepository;
 import com.bootcamp.api.services.exceptions.SiglaUfAndNomeUfExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +25,12 @@ public class UfService {
         } catch (DataIntegrityViolationException e) {
             throw new SiglaUfAndNomeUfExistsException("Erro de integridade referencial. Este estado já possui cadastro no banco de dados.");
         }
+    }
 
+    @Transactional(readOnly = true)
+    public Page<UfDTO> findAll(Pageable pageable){
+        Page<UfDTO> ufDTOS = ufRepository.findAll(pageable).map(this::convertUfToUfDTO);
+        return ufDTOS;
     }
 
     private UfDTO convertUfToUfDTO(Uf uf){
