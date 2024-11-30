@@ -69,6 +69,10 @@ public class Uf {
         this.status = status;
     }
 
+    public Set<Municipio> getMunicipios() {
+        return municipios;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
@@ -81,4 +85,5 @@ public class Uf {
     public int hashCode() {
         return Objects.hashCode(codigoUF);
     }
+
 }

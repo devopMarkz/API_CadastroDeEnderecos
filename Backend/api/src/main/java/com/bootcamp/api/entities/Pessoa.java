@@ -2,7 +2,9 @@ package com.bootcamp.api.entities;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "TB_PESSOA")
@@ -30,6 +32,9 @@ public class Pessoa {
 
     @Column(name = "STATUS", nullable = false)
     private Integer status;
+
+    @OneToMany(mappedBy = "pessoa")
+    private Set<Endereco> enderecos = new HashSet<>();
 
     public Pessoa() {
     }
@@ -98,6 +103,10 @@ public class Pessoa {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Set<Endereco> getEnderecos() {
+        return enderecos;
     }
 
     @Override

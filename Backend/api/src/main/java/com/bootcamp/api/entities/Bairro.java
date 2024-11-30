@@ -2,7 +2,7 @@ package com.bootcamp.api.entities;
 
 import jakarta.persistence.*;
 
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "TB_BAIRRO")
@@ -22,6 +22,9 @@ public class Bairro {
 
     @Column(name = "STATUS")
     private Integer status;
+
+    @OneToMany(mappedBy = "bairro")
+    private List<Endereco> enderecos = new ArrayList<>();
 
     public Bairro() {
     }
@@ -63,6 +66,10 @@ public class Bairro {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public List<Endereco> getEnderecos() {
+        return enderecos;
     }
 
     @Override

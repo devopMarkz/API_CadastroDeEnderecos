@@ -70,6 +70,10 @@ public class Municipio {
         this.status = status;
     }
 
+    public List<Bairro> getBairros() {
+        return bairros;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
