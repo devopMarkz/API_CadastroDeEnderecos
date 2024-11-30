@@ -2,7 +2,10 @@ package com.bootcamp.api.entities;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "TB_UF")
@@ -21,6 +24,9 @@ public class Uf {
 
     @Column(name = "STATUS")
     private Integer status;
+
+    @OneToMany(mappedBy = "uf")
+    private Set<Municipio> municipios = new HashSet<>();
 
     public Uf() {
     }
